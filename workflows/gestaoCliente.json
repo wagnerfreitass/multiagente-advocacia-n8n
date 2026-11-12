@@ -1,0 +1,1044 @@
+{
+  "name": "gestaoCliente",
+  "nodes": [
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1952,
+        672
+      ],
+      "id": "9c67386d-3a28-456c-be11-bd789dc610b1",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "=https://viacep.com.br/ws/{{ $('Seta Dados').item.json.cep }}/json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        1040
+      ],
+      "id": "b0dc7f94-41f1-4612-a56c-9587f01a1243",
+      "name": "ConsultaCep",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "function"
+            },
+            {
+              "name": "telefone"
+            },
+            {
+              "name": "nome"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "numero"
+            },
+            {
+              "name": "endereco"
+            },
+            {
+              "name": "cep"
+            },
+            {
+              "name": "cpf"
+            },
+            {
+              "name": "lat"
+            },
+            {
+              "name": "long"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1456,
+        752
+      ],
+      "id": "67cab22c-6212-45c0-a7b1-4eda79d1f6e5",
+      "name": "Inicio"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "customers",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "phone",
+              "keyValue": "={{ $('Seta Dados').item.json.phone }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        752
+      ],
+      "id": "7a2c152e-1cbd-423d-a9fc-3c4f5eab24b6",
+      "name": "Busca Cliente",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1dbcca50-6942-4456-92b2-9175d0416950",
+              "leftValue": "={{ $('Busca Cliente').last().json.isEmpty() }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        768
+      ],
+      "id": "de98459c-7886-468b-8f20-b1cd6e644e02",
+      "name": "Verifica se Encontrou Cliente"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop through input items\nconst output = $input.all().map(item => {\n  // Objeto 1 e Objeto 2\n\n  const object1 = $(\"Busca Cliente\").first().json; // Primeiro objeto \n  const object2 = $(\"Seta Dados\").first().json // Segundo objeto\n  // Validar que os objetos existem\n  if (!object1 || !object2) {\n    throw new Error('Os campos \"object1\" e \"object2\" são obrigatórios nos dados de entrada.');\n  }\n\n  // Misturar os objetos, sobrepondo os valores do segundo objeto, caso não estejam em branco\n  const mergedObject = { ...object1 }; // Começa com os valores do objeto 1\n\n  for (const [key, value] of Object.entries(object2)) {\n    // Sobrescreve o valor apenas se não estiver vazio\n    if (value !== null && value !== undefined && value !== '') {\n      mergedObject[key] = value;\n    }\n  }\n\n  // Retornar o novo objeto combinado\n  return { json: { mergedObject } };\n});\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        784
+      ],
+      "id": "c36f80e7-a353-4916-ae90-4d58919c57d2",
+      "name": "Junta Dados"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d85ea53c-6018-4697-afc9-57f0c87f2750",
+              "leftValue": "={{ $json.cep }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        1040
+      ],
+      "id": "78411815-b1e7-440d-ae11-533f0abd5a0e",
+      "name": "Valida se Encontrou"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop through input items\nconst output = $input.all().map(item => {\n  // Objeto 1 e Objeto 2\n\n  const object1 = $(\"Busca Cliente\").first().json; // Primeiro objeto \n  const object2 = $(\"ConsultaCep\").first().json // Segundo objeto\n  // Validar que os objetos existem\n  if (!object1 || !object2) {\n    throw new Error('Os campos \"object1\" e \"object2\" são obrigatórios nos dados de entrada.');\n  }\n\n  // Misturar os objetos, sobrepondo os valores do segundo objeto, caso não estejam em branco\n  const mergedObject = { ...object1 }; // Começa com os valores do objeto 1\n\n  for (const [key, value] of Object.entries(object2)) {\n    // Sobrescreve o valor apenas se não estiver vazio\n    if (value !== null && value !== undefined && value !== '') {\n      mergedObject[key] = value;\n    }\n  }\n\n  // Retornar o novo objeto combinado\n  return { json: { mergedObject } };\n});\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        1040
+      ],
+      "id": "8de04a18-cf6d-4a50-b3b7-4931d252dbee",
+      "name": "Junta Dados1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a4373703-63d9-433c-baff-3911c4ee98ba",
+              "name": "message",
+              "value": "CEP não localizado",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        1280
+      ],
+      "id": "697b6e19-8320-4483-8051-a282bd142d0f",
+      "name": "Avisa que o Cep não foi localizado"
+    },
+    {
+      "parameters": {
+        "jsCode": "return { \n'response': $input.last().json\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        1280
+      ],
+      "id": "bfb91c9d-3399-4f0c-80a5-29ead0724fd5",
+      "name": "Seta Retorno do Fluxo"
+    },
+    {
+      "parameters": {
+        "content": "## Tatamento de Entrada do Cliente no Fluxo",
+        "height": 300,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1664,
+        640
+      ],
+      "id": "c1503e88-0fd3-41ad-844d-ee42337b2b14",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Valida a operação que será feira na gestão do cliente",
+        "height": 1320,
+        "width": 2260,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        176
+      ],
+      "id": "63a7bb2b-5cf2-4904-af09-6fe9d63fd485",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        160,
+        480
+      ],
+      "id": "24a95882-a79b-4168-a7a6-f5286324235a",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8a011e5f-4fa4-4788-a027-4e8a5e3ec3ef",
+              "leftValue": "={{ $('Busca Cliente')?.last()?.json?.id}}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        832,
+        336
+      ],
+      "id": "1e8b4a5e-f449-4e05-8cee-55d702f1e772",
+      "name": "Verifica se existe"
+    },
+    {
+      "parameters": {
+        "tableId": "clientes",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Seta Dados para gravar').item.json.telefone }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $('Seta Dados para gravar').item.json.nome }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $('Seta Dados para gravar').item.json.email }}"
+            },
+            {
+              "fieldId": "app_name",
+              "fieldValue": "=sdr-advocacia"
+            },
+            {
+              "fieldId": "ativo",
+              "fieldValue": "true"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        560
+      ],
+      "id": "4bb47f23-5e11-44c4-a6fd-19d7fbccca72",
+      "name": "Criar Cliente"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "clientes",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json.mergedObject.telefone }}"
+            },
+            {
+              "keyName": "app_name",
+              "condition": "eq",
+              "keyValue": "sdr-advocacia"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $json.mergedObject.cliente_name }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.mergedObject.email }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        784
+      ],
+      "id": "e162f352-0474-49d6-8e07-f9190540d9c0",
+      "name": "Atualiza Cliente",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "clientes",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $json.mergedObject.telefone }}"
+            },
+            {
+              "keyName": "app_name"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "cep",
+              "fieldValue": "={{ $json.mergedObject.cep }}"
+            },
+            {
+              "fieldId": "uf",
+              "fieldValue": "={{ $json.mergedObject.uf }}"
+            },
+            {
+              "fieldId": "cidade",
+              "fieldValue": "={{ $json.mergedObject.cidade }}"
+            },
+            {
+              "fieldId": "bairro",
+              "fieldValue": "={{ $json.mergedObject.bairro }}"
+            },
+            {
+              "fieldId": "endereco",
+              "fieldValue": "={{ $json.mergedObject.endereco }}"
+            },
+            {
+              "fieldId": "complemento",
+              "fieldValue": "={{ $json.mergedObject.complemento }}"
+            },
+            {
+              "fieldId": "numero",
+              "fieldValue": "={{ $json.mergedObject.numero }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.mergedObject.email }}"
+            },
+            {
+              "fieldId": "nome",
+              "fieldValue": "={{ $json.mergedObject.nome }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1040
+      ],
+      "id": "db7468a1-8bcb-4c9b-8bdd-bcde53db901d",
+      "name": "Atualiza o Cliente"
+    },
+    {
+      "parameters": {
+        "jsCode": "return { \n'response': $input.last().json\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        688
+      ],
+      "id": "9093072e-c0c4-4894-94c8-e5539d123494",
+      "name": "Retorna o Cliente"
+    },
+    {
+      "parameters": {
+        "content": "## Retorna o Json com cliente ou com mensagem",
+        "height": 340,
+        "width": 600,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        560
+      ],
+      "id": "235b8398-86a4-40e5-a058-bd0097090a6d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1560,
+        "width": 4360,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        80
+      ],
+      "id": "ddec9ec4-ef2f-4e89-acb8-512746735a2c",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Gestão do banco de dados",
+        "height": 360,
+        "width": 280,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1616,
+        192
+      ],
+      "id": "0bb7afe4-404b-41ee-ade8-64b9d0cfdfab",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "332b1821-9580-4cfd-a520-1f8189e9d764",
+              "name": "function",
+              "value": "={{ $json.function || 'buscar_ou_Criar' }}",
+              "type": "string"
+            },
+            {
+              "id": "2e31c66f-31b8-4800-9154-e5365bcbfdec",
+              "name": "telefone",
+              "value": "={{ $json.telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "a7de30b6-1398-4812-a589-68eb0aa9d604",
+              "name": "nome",
+              "value": "={{ $json.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "bed1554c-d83b-4a11-b9aa-e59e2a63cbb9",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "7437d6f3-54ea-4a89-ab95-8a12c3510870",
+              "name": "cpf",
+              "value": "={{ $json.cpf || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "495064cf-b146-48e3-9bc0-0d31601aa392",
+              "name": "lat",
+              "value": "={{ $json.lat }}",
+              "type": "string"
+            },
+            {
+              "id": "aa962888-9af0-4e93-a2bf-1e496200d62f",
+              "name": "long",
+              "value": "={{ $json.long }}",
+              "type": "string"
+            },
+            {
+              "id": "56f3c2e2-b3b2-439c-b421-a0b668e5ae2e",
+              "name": "distancia",
+              "value": "={{ $json.distance  || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "7ff00a13-53cc-42d7-9ab4-2970d9a38463",
+              "name": "nomeApp",
+              "value": "sdr-advocacia",
+              "type": "string"
+            },
+            {
+              "id": "96f589b9-9d9f-4b8a-9e46-aed3a771f728",
+              "name": "cep",
+              "value": "={{ $json.cep.replaceAll('-','').replaceAll(' ','') }}",
+              "type": "string"
+            },
+            {
+              "id": "a3af05ec-7cd2-4541-aad9-fa35685911e5",
+              "name": "numero",
+              "value": "={{ $json.numero }}",
+              "type": "string"
+            },
+            {
+              "id": "ee446d4a-5bb8-463f-be75-63a6bca22fcc",
+              "name": "endereco",
+              "value": "={{ $json.complemento }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        752
+      ],
+      "id": "d8dcfc9e-e3d7-421d-ba45-eab04c133347",
+      "name": "Seta Dados",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Seta Dados').item.json.function }}",
+                    "rightValue": "buscar_ou_criar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2ba71c7e-932a-48d6-9e98-fe922c9122af"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Busca ou Cria"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "61ad9fb3-58ca-48f7-9cf0-d52c39400446",
+                    "leftValue": "={{ $('Seta Dados').item.json.function }}",
+                    "rightValue": "atualizar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Atualiza"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "40cbf966-b03f-4376-9af5-60733c67af73",
+                    "leftValue": "={{ $('Seta Dados').item.json.function }}",
+                    "rightValue": "buscar_cep",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "BuscaCep"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -480,
+        752
+      ],
+      "id": "095c4415-3e1a-497b-a37b-0d42b2e6e0ff",
+      "name": "Roteador"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3b472184-de47-4205-bccd-3c3710f98bb8",
+              "name": "telefone",
+              "value": "={{ $('Seta Dados').item.json.telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "3c5d0b81-d4c7-4069-b14f-77842890c2d2",
+              "name": "nome",
+              "value": "={{ $json.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "8fb1b4bf-f239-4408-9987-cdd3c1e0eb31",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "056bebdd-ceca-4204-b3da-a117bfabc25b",
+              "name": "lat",
+              "value": "={{ $json.lat }}",
+              "type": "string"
+            },
+            {
+              "id": "8cdb1beb-fe86-4a43-a5e2-a6d36436df40",
+              "name": "long",
+              "value": "={{ $json.long }}",
+              "type": "string"
+            },
+            {
+              "id": "3623929e-b762-40ff-80a1-ed6264c060cf",
+              "name": "cpf",
+              "value": "={{ $json.cpf }}",
+              "type": "string"
+            },
+            {
+              "id": "5301be13-a7c3-449a-8c85-979053abba79",
+              "name": "cep",
+              "value": "={{ $json.cep }}",
+              "type": "string"
+            },
+            {
+              "id": "ea553a16-c8f8-4072-8ee1-957e92b8d214",
+              "name": "endereco",
+              "value": "={{ $json.endereco }}",
+              "type": "string"
+            },
+            {
+              "id": "76c85c25-b8ef-46e4-b95a-17c00e92ff5e",
+              "name": "numero",
+              "value": "={{ $json.numero }}",
+              "type": "string"
+            },
+            {
+              "id": "70fb0c6e-52c7-432b-bdcc-635530835210",
+              "name": "  cidade",
+              "value": "={{ $json.cidade }}",
+              "type": "string"
+            },
+            {
+              "id": "f2be0ca7-9a4e-41d4-8db5-d48e0d40f742",
+              "name": "uf",
+              "value": "={{ $json.uf }}",
+              "type": "string"
+            },
+            {
+              "id": "a4b46205-b619-4b7b-a0ad-54b77b4d2f93",
+              "name": "bairro",
+              "value": "={{ $json.bairro }}",
+              "type": "string"
+            },
+            {
+              "id": "e3b1096f-2af3-46d6-92fe-578fa4f74340",
+              "name": "complemento",
+              "value": "={{ $json.complemento }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        464
+      ],
+      "id": "04278e2c-7995-4a9e-a1d7-4396bcf74ab8",
+      "name": "Seta Dados para gravar"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "create table public.clientes (\n  id bigint generated by default as identity not null,\n  created_at timestamp with time zone not null default now(),\n  telefone text null,\n  nome text null,\n  email text null,\n  cpf text null,\n  cep text null,\n  uf text null,\n  cidade text null,\n  bairro text null,\n  numero text null,\n  endereco text null,\n  complemento text null,\n  lat text null,\n  long text null,\n  ativo boolean null default false,\n  app_name text null default 'delivery'::text,\n  updated_at timestamp with time zone null default (now() AT TIME ZONE 'utc'::text),\n  constraint clientes_pkey primary key (id)\n) TABLESPACE pg_default;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1568,
+        336
+      ],
+      "id": "9fcf8250-50d0-4fa2-b3f5-c5620f49a8aa",
+      "name": "Criar Tabela Cliente",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Retorna o Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ConsultaCep": {
+      "main": [
+        [
+          {
+            "node": "Valida se Encontrou",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inicio": {
+      "main": [
+        [
+          {
+            "node": "Seta Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca Cliente": {
+      "main": [
+        [
+          {
+            "node": "Roteador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se Encontrou Cliente": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Junta Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Junta Dados": {
+      "main": [
+        [
+          {
+            "node": "Atualiza Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valida se Encontrou": {
+      "main": [
+        [
+          {
+            "node": "Junta Dados1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Avisa que o Cep não foi localizado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Junta Dados1": {
+      "main": [
+        [
+          {
+            "node": "Atualiza o Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avisa que o Cep não foi localizado": {
+      "main": [
+        [
+          {
+            "node": "Seta Retorno do Fluxo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Seta Dados para gravar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se existe": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Criar Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Cliente": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Atualiza Cliente": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Atualiza o Cliente": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Seta Dados": {
+      "main": [
+        [
+          {
+            "node": "Busca Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Verifica se Encontrou Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ConsultaCep",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seta Dados para gravar": {
+      "main": [
+        [
+          {
+            "node": "Verifica se existe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "id": "68iCzMKUaz7ekCRR",
+  "tags": []
+}

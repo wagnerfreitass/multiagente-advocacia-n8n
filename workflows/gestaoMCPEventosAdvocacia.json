@@ -1,0 +1,1110 @@
+{
+  "name": "gestaoMCPEventosAdvocacia",
+  "nodes": [
+    {
+      "parameters": {
+        "name": "agenda_nova_reuniao",
+        "description": "Função que cria um novo evento (reunião) para o advogado com o ID iCalUID e dados do cliente",
+        "workflowId": {
+          "__rl": true,
+          "value": "d0mRFLnm7pE9HerJ",
+          "mode": "list",
+          "cachedResultName": "gestaoAgendasAdvocacia"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email do cliente`, 'string') }}",
+            "startDate": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('startDate', `Data e hora inicial do evento(reunião)`, 'string') }}",
+            "duration": "1",
+            "function": "new",
+            "phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone', `Telefone do cliente`, 'string') }}",
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', `Nome do cliente`, 'string') }}",
+            "event_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('event_id', `Não se aplica a esta função`, 'string') }}",
+            "local": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('local', `Local onde será o evento`, 'string') }}",
+            "observacao": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('observacao', `Observação sobre o cliente`, 'string') }}",
+            "iCalUID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('iCalUID', `iCalUID da agenda do profissional que devemos criar o agendamento`, 'string') }}",
+            "date_slots": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('date_slots', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date_slots",
+              "displayName": "date_slots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "iCalUID",
+              "displayName": "iCalUID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "startDate",
+              "displayName": "startDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "duration",
+              "displayName": "duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "observacao",
+              "displayName": "observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "local",
+              "displayName": "local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "event_id",
+              "displayName": "event_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        256,
+        512
+      ],
+      "id": "c6ecfa70-7f03-4055-99e2-9e0364789094",
+      "name": "agenda_nova_reuniao"
+    },
+    {
+      "parameters": {
+        "name": "lista_reunioes_do_cliente",
+        "description": "Função que lista um ou vários eventos (reuniões) de um cliente com um determinado telefone (phone) com qualquer advogado disponível",
+        "workflowId": {
+          "__rl": true,
+          "value": "d0mRFLnm7pE9HerJ",
+          "mode": "list",
+          "cachedResultName": "gestaoAgendasAdvocacia"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email do cliente`, 'string') }}",
+            "function": "lista_reunioes_do_cliente",
+            "telefone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefone', `Telefone do Cliente`, 'string') }}",
+            "nome": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nome', `Nome do Cliente`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "dateSlots",
+              "displayName": "dateSlots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "iCalUID",
+              "displayName": "iCalUID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "dataInicio",
+              "displayName": "dataInicio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "duracao",
+              "displayName": "duracao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "observacao",
+              "displayName": "observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "local",
+              "displayName": "local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "id_do_evento",
+              "displayName": "id_do_evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        512
+      ],
+      "id": "e29515bd-8fe7-46ce-8065-cce374246f7f",
+      "name": "lista_reunioes_do_cliente"
+    },
+    {
+      "parameters": {
+        "name": "exclui_reuniao_com_cliente",
+        "description": "Função que deleta todos os eventos (reunião) para o advogado com o iCalUID e com um determinado telefone (phone) ou email de um cliente",
+        "workflowId": {
+          "__rl": true,
+          "value": "d0mRFLnm7pE9HerJ",
+          "mode": "list",
+          "cachedResultName": "gestaoAgendasAdvocacia"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date_slots": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('date_slots', `Dara para verificação dos slots disponíveis com formato YYYY-MM-DD`, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email do cliente`, 'string') }}",
+            "startDate": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('startDate', `Data e hora inicial do evento(reunião)`, 'string') }}",
+            "function": "exclui_reuniao_com_cliente",
+            "phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone', `Telefone do cliente`, 'string') }}",
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', `Nome do cliente`, 'string') }}",
+            "event_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('event_id', `Não se aplica a esta função`, 'string') }}",
+            "local": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('local', `Local onde será o evento`, 'string') }}",
+            "observacao": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('observacao', `Observação sobre o cliente`, 'string') }}",
+            "iCalUID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('iCalUID', `iCalUID da agenda do profissional que devemos apagar/cancelar o agendamento`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date_slots",
+              "displayName": "date_slots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "iCalUID",
+              "displayName": "iCalUID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "startDate",
+              "displayName": "startDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "duration",
+              "displayName": "duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "observacao",
+              "displayName": "observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "local",
+              "displayName": "local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "event_id",
+              "displayName": "event_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        704,
+        512
+      ],
+      "id": "0d709e75-44fb-4db9-b28d-66d89ae036e9",
+      "name": "exclui_reuniao_com_cliente"
+    },
+    {
+      "parameters": {
+        "name": "exclui_reuniao_especifica",
+        "description": "Função que deleta um eventos (reunião) para o advogado com o ID do evento e iCalUID do advogado",
+        "workflowId": {
+          "__rl": true,
+          "value": "d0mRFLnm7pE9HerJ",
+          "mode": "list",
+          "cachedResultName": "gestaoAgendasAdvocacia"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email do cliente`, 'string') }}",
+            "function": "exclui_reuniao_especifica",
+            "phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone', `Telefone do cliente`, 'string') }}",
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', `Nome do cliente`, 'string') }}",
+            "event_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('event_id', `ID do evento que será apagado`, 'string') }}",
+            "local": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('local', `Local onde será o evento`, 'string') }}",
+            "observacao": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('observacao', `Observação sobre o cliente`, 'string') }}",
+            "iCalUID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('iCalUID', `iCalUID da agenda do profissional que devemos apagar/cancelar o agendamento`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date_slots",
+              "displayName": "date_slots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "iCalUID",
+              "displayName": "iCalUID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "startDate",
+              "displayName": "startDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "duration",
+              "displayName": "duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "observacao",
+              "displayName": "observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "local",
+              "displayName": "local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "event_id",
+              "displayName": "event_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        896,
+        496
+      ],
+      "id": "76469a13-dca1-4383-a455-0457f067ab6f",
+      "name": "exclui_reuniao_especifica"
+    },
+    {
+      "parameters": {
+        "name": "atualiza_data_da_reuniao",
+        "description": "Função que atualiza a data um evento (reunião) para o advogado com o ID do evento e iCalUID do advogado",
+        "workflowId": {
+          "__rl": true,
+          "value": "d0mRFLnm7pE9HerJ",
+          "mode": "list",
+          "cachedResultName": "gestaoAgendasAdvocacia"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email do cliente`, 'string') }}",
+            "function": "atualiza_data_da_reuniao",
+            "phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone', `Telefone do cliente`, 'string') }}",
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', `Nome do cliente`, 'string') }}",
+            "event_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('event_id', `ID do evento que será atualizado`, 'string') }}",
+            "local": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('local', `Local onde será o evento`, 'string') }}",
+            "observacao": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('observacao', `Observação sobre o cliente`, 'string') }}",
+            "iCalUID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('iCalUID', `iCalUID da agenda do profissional que devemos apagar/cancelar o agendamento`, 'string') }}",
+            "date_slots": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('date_slots', `Nova data para o evento informado pelo cliente`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date_slots",
+              "displayName": "date_slots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "iCalUID",
+              "displayName": "iCalUID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "startDate",
+              "displayName": "startDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "duration",
+              "displayName": "duration",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "observacao",
+              "displayName": "observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "local",
+              "displayName": "local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "event_id",
+              "displayName": "event_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        512
+      ],
+      "id": "2aa763ef-a03a-4f42-8716-afdf81c6e7d4",
+      "name": "atualiza_data_da_reuniao"
+    },
+    {
+      "parameters": {
+        "name": "atualiza_cliente",
+        "description": "Função que atualiza os dados do cliente pelo numero do telefone",
+        "workflowId": {
+          "__rl": true,
+          "value": "68iCzMKUaz7ekCRR",
+          "mode": "list",
+          "cachedResultName": "gestaoCliente"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "function": "atualizar",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `E-mail do cliente`, 'string') }}",
+            "telefone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefone', `Telefone do Cliente`, 'string') }}",
+            "nome": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nome', `Nome do Cliente`, 'string') }}",
+            "numero": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('numero', `Número do Celular do Cliente`, 'string') }}",
+            "endereco": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('endereco', `Endereço do Cliente`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "numero",
+              "displayName": "numero",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "endereco",
+              "displayName": "endereco",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "cep",
+              "displayName": "cep",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "cpf",
+              "displayName": "cpf",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "lat",
+              "displayName": "lat",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "long",
+              "displayName": "long",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        512
+      ],
+      "id": "9785f531-92cc-4653-a77c-f2267374bfc5",
+      "name": "atualiza_cliente"
+    },
+    {
+      "parameters": {
+        "name": "lista_slots_tempo",
+        "description": "Função que lista os slots de tempo para um determinado advogado, ele recebe uma data dataInicio, ID da agenda do advogado List_iCalUID",
+        "workflowId": {
+          "__rl": true,
+          "value": "d0mRFLnm7pE9HerJ",
+          "mode": "list",
+          "cachedResultName": "gestaoAgendasAdvocacia"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `Email do cliente`, 'string') }}",
+            "function": "lista_slots_tempo",
+            "iCalUID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('iCalUID', `iCalUID da agenda do advogado que devemos consultar os SLOTs de tempo disponíveis para agendamento`, 'string') }}",
+            "dateSlots": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('dateSlots', `Data de Slot a ser reservada`, 'string') }}",
+            "dataInicio": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('dataInicio', `Data de Inicio da reunião`, 'string') }}",
+            "duracao": "1",
+            "telefone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('telefone', `Telefone do Cliente`, 'string') }}",
+            "nome": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nome', `Nome do Cliente`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "dateSlots",
+              "displayName": "dateSlots",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "iCalUID",
+              "displayName": "iCalUID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "dataInicio",
+              "displayName": "dataInicio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "duracao",
+              "displayName": "duracao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "observacao",
+              "displayName": "observacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "local",
+              "displayName": "local",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            },
+            {
+              "id": "function",
+              "displayName": "function",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "id_do_evento",
+              "displayName": "id_do_evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        64,
+        512
+      ],
+      "id": "e5a87c06-9cc6-4fab-819f-a598ddde2424",
+      "name": "lista_slots_tempo"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 620,
+        "width": 1700,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        112
+      ],
+      "id": "3bab4010-0ef8-43b0-a964-0e8adcbd225a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "path": "sdr-advocacia"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 1,
+      "position": [
+        320,
+        176
+      ],
+      "id": "93c6ba5c-f453-485e-9352-9782938fb618",
+      "name": "MCP Server - Gestão Advocacia"
+    }
+  ],
+  "connections": {
+    "agenda_nova_reuniao": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lista_reunioes_do_cliente": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "exclui_reuniao_com_cliente": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "exclui_reuniao_especifica": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_data_da_reuniao": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualiza_cliente": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lista_slots_tempo": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server - Gestão Advocacia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "id": "JoR2a7AKm1GDYcLW",
+  "tags": []
+}

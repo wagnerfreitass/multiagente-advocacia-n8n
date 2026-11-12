@@ -1,0 +1,1906 @@
+{
+  "name": "gestaoAgendasAdvocacia",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "dateSlots"
+            },
+            {
+              "name": "iCalUID"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "dataInicio"
+            },
+            {
+              "name": "duracao"
+            },
+            {
+              "name": "observacao"
+            },
+            {
+              "name": "local"
+            },
+            {
+              "name": "function"
+            },
+            {
+              "name": "telefone"
+            },
+            {
+              "name": "nome"
+            },
+            {
+              "name": "id_do_evento"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2096,
+        1888
+      ],
+      "id": "f896fb42-33e3-4ca9-b40e-93f52cbad20a",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        864,
+        576
+      ],
+      "id": "6007319d-c77a-4182-af37-656836af3b49",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1584,
+        2848
+      ],
+      "id": "270bfcc9-2ce7-45bf-bc44-7f662eca4363",
+      "name": "LoopDelete"
+    },
+    {
+      "parameters": {
+        "content": "## Busca EVENTOS do usuário\n",
+        "height": 620,
+        "width": 2060,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1184,
+        2224
+      ],
+      "id": "77e68528-e446-40fa-b3ff-6b0548af5236",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Cria um EVENTOS do usuário\n",
+        "height": 620,
+        "width": 2760,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1216,
+        432
+      ],
+      "id": "b255fe0c-fb92-424e-91b8-d022f12ab408",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "=Evento atualizado !",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        1216
+      ],
+      "id": "23613d65-48d3-4f75-9d87-6f5f288ae1c4",
+      "name": "SetMessage4",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "=Não consegui atualizar o evento : {{ $('Variáveis do Fluxo').item.json.event_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        1408
+      ],
+      "id": "a47712ff-2a54-4c12-ab94-2c019a68b6a8",
+      "name": "SetMessage5",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Apaga TODOS EVENTOS do usuário\n",
+        "height": 460,
+        "width": 1600,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        2768
+      ],
+      "id": "353b275f-e620-4ce8-b2cb-c2e1667ce11a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Update um EVENTOS do usuário\n",
+        "height": 440,
+        "width": 1540,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1216,
+        1120
+      ],
+      "id": "73642ed1-2c0a-4b66-b3eb-16a8bf21b8f7",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Busca SLOTS por dia\n",
+        "height": 620,
+        "width": 2360,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        2928
+      ],
+      "id": "15273eed-1284-43f4-b635-e5cc96996882",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        -944,
+        2320
+      ],
+      "id": "519be23d-9edd-48b5-9d6c-b77051f67079",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "content": "## Apaga EVENTOS do usuário\n",
+        "height": 500,
+        "width": 1660,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        1648
+      ],
+      "id": "e296fd07-cd81-4896-971e-a27ef0752fa6",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst available = item.available;\nconst datetimeStr = $('Seta Data e Hora').first().json.dataInicio;\n\nreturn [{\n  json: {\n    datetime: '',\n    available: false,\n    error:'iCalUID não localizado' \n  }\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        3296
+      ],
+      "id": "3235d40e-b5fa-4d53-b1f8-bd1d6238aee7",
+      "name": "FormatErrorOut",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "content": "## Envia Retorno",
+        "height": 640,
+        "width": 680,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2864,
+        1392
+      ],
+      "id": "f660fa94-a2a0-4089-876b-27462ba9c56f",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "height": 480,
+        "width": 920
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2224,
+        1728
+      ],
+      "id": "40732c4e-46cf-4f68-9b8c-6aa9eea41fc9",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "650bc62c-eabf-4619-8852-4a6849e08311",
+              "name": "nome",
+              "value": "={{ $json.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "be224dfc-49b0-4e49-a9d8-2cb293d76e20",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "85a93da5-3a20-467f-b0da-5146fec366a5",
+              "name": "dataInicio",
+              "value": "={{ $json?.dataInicio?.toDateTime() || $now }}",
+              "type": "string"
+            },
+            {
+              "id": "ecf33f20-1393-4a6a-be7f-82467a9befc2",
+              "name": "observacao",
+              "value": "={{ $json.observacao }}",
+              "type": "string"
+            },
+            {
+              "id": "32b1c3a1-69c6-494b-a55a-27253db34f1d",
+              "name": "local",
+              "value": "={{ $json.local }}",
+              "type": "string"
+            },
+            {
+              "id": "19258712-b3cc-4a1b-8f0f-b342b160de56",
+              "name": "duracao",
+              "value": "={{ $json.duracao }}",
+              "type": "string"
+            },
+            {
+              "id": "b7f8de4f-d1be-48aa-bd9d-14daf548f290",
+              "name": "function",
+              "value": "={{ $json.function }}",
+              "type": "string"
+            },
+            {
+              "id": "bb7b1b1e-9282-4312-9a4e-51f1d51b2e0f",
+              "name": "permiteConflito",
+              "value": "false",
+              "type": "string"
+            },
+            {
+              "id": "17c517fd-7f11-4d7d-a99f-1b80ee37eef0",
+              "name": "iCalUID",
+              "value": "={{ $json.iCalUID.replaceAll('\\n','') }}",
+              "type": "string"
+            },
+            {
+              "id": "4d817757-7eed-47ee-a137-e0342cd32747",
+              "name": "telefone",
+              "value": "={{ $json.telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "02136262-abd1-48c0-801f-b102f4d4b961",
+              "name": "id_do_evento",
+              "value": "={{ $json.id_do_evento }}",
+              "type": "string"
+            },
+            {
+              "id": "33e2e568-dae2-4240-a730-3996d9afa72e",
+              "name": "dateSlots",
+              "value": "={{ $json.dateSlots }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1824,
+        1888
+      ],
+      "id": "fe0f735c-50f9-473e-be6f-efe68df8b88a",
+      "name": "Variáveis do Fluxo"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('Variáveis do Fluxo').item.json.iCalUID }}",
+          "mode": "id"
+        },
+        "eventId": "={{ $('Variáveis do Fluxo').item.json.event_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1072,
+        1888
+      ],
+      "id": "2dde6b2a-f2d5-4be3-b776-4d9a1f9fba7e",
+      "name": "Remove Evento do Calendario",
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('Roteador').item.json.iCalUID }}",
+          "mode": "id"
+        },
+        "eventId": "={{ $json.event_id }}",
+        "updateFields": {
+          "end": "={{ $('Variáveis do Fluxo').item.json.date_slots.toDateTime().plus(1,'hour') }}",
+          "start": "={{ $('Variáveis do Fluxo').item.json.date_slots.toDateTime().plus(1,'hour') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1024,
+        1280
+      ],
+      "id": "38d02ab4-f8ac-497d-b329-30784b9b1a44",
+      "name": "Atualiza Evento no Calendário",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.function }}",
+                    "rightValue": "new",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "105f7b9c-2fe1-4d88-bc0b-b50ce0a8ebda"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "agenda_nova_reuniao"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ab0e12c3-bf1b-42b2-bd81-13ac1448bd1f",
+                    "leftValue": "={{ $json.function }}",
+                    "rightValue": "lista_reunioes_do_cliente",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "lista_reunioes_do_cliente"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e11a96ad-f187-4120-aa00-0d328ec236e9",
+                    "leftValue": "={{ $json.function }}",
+                    "rightValue": "lista_slots_tempo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "lista_slots_tempo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "50cf11ff-9ee8-4027-bc48-3b9a9393fce6",
+                    "leftValue": "={{ $json.function }}",
+                    "rightValue": "exclui_reuniao_especifica",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exclui_reuniao_especifica"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6800d520-eda8-4095-a992-63550a9d53cd",
+                    "leftValue": "={{ $json.function }}",
+                    "rightValue": "exclui_reuniao_com_cliente",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exclui_reuniao_com_cliente"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1e490094-7829-4f79-940f-b7fd928676c9",
+                    "leftValue": "={{ $json.function }}",
+                    "rightValue": "atualiza_data_da_reuniao",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "atualiza_data_da_reuniao"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1520,
+        1824
+      ],
+      "id": "cb3e8982-22bf-40be-8df3-1cd6ea498d9b",
+      "name": "Roteador"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "advogados",
+        "limit": 10,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "active",
+              "condition": "eq",
+              "keyValue": "true"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        2320
+      ],
+      "id": "42ccfdec-2d02-4d7a-bac2-dbbd314d8550",
+      "name": "Busca Advogados Ativos",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        2320
+      ],
+      "id": "77f69b0c-9a37-48b9-a0e0-c6d00fe6b3eb",
+      "name": "Loop nos Advogados",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $json.iCalUID }}",
+          "mode": "id"
+        },
+        "limit": 5,
+        "timeMax": "={{ $now.plus({ week: 2 }) }}",
+        "options": {
+          "query": "={{ $('Variáveis do Fluxo').item.json.telefone || $('Variáveis do Fluxo').item.json.nome }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        2528
+      ],
+      "id": "8f6b6c7e-e7e9-4cfa-9105-dbabf658b203",
+      "name": "Lista Agendas",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        2560
+      ],
+      "id": "730bc02d-a0b5-4dfe-a746-34124ee6af78",
+      "name": "Espera 1 segundo"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Variáveis do Fluxo').item.json.function }}",
+                    "rightValue": "lista_reunioes_do_cliente",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "335635fa-b958-42f3-86c5-76fbfd33ff58"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "39a4a6e7-d32f-4315-a41b-1f241b6da43f",
+                    "leftValue": "={{ $('Variáveis do Fluxo').item.json.function }}",
+                    "rightValue": "exclui_reuniao_com_cliente",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        288,
+        2320
+      ],
+      "id": "384c610d-f25f-4586-bb59-10c6fed86f05",
+      "name": "Seleciona Operacao",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1a9a5ce4-9049-4944-9743-9fe9d976e1cb",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        2336
+      ],
+      "id": "46710891-930b-42cc-92cd-74f270edd42f",
+      "name": "Filtra",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Filtra').item.json.isEmpty() }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "false",
+                      "singleValue": true
+                    },
+                    "id": "44171f5d-827d-4b58-8ead-a0b13efb1a2c"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3257d663-6824-4f74-b3ce-65d284693899",
+                    "leftValue": "={{ $('Filtra').item.json.isEmpty() }}",
+                    "rightValue": "true",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        2336
+      ],
+      "id": "d08e80ca-c483-4f7a-89ac-b1fcfd24d0e6",
+      "name": "Roteador1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "=Não encontrei evento para cancelar",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1456,
+        2368
+      ],
+      "id": "ef15ea43-0ab6-4d73-a041-960ae6d6f51b",
+      "name": "Seta Mensagem de evento não encontrado",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "Processo concluído",
+              "type": "string"
+            },
+            {
+              "id": "5df18b31-90b2-4297-b89f-c1a756eeb4a5",
+              "name": "error",
+              "value": "={{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2528,
+        2848
+      ],
+      "id": "119142b2-df75-4805-ab8b-ba4731c92314",
+      "name": "Seta Mensagem Retorno",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2432,
+        3008
+      ],
+      "id": "ce93ab73-9de5-4038-8816-b59d6bbc616a",
+      "name": "Espera 1 segundo1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Definir horário de início e fim\nconst startHour = 8; // 08:00\nconst endHour = 18;  // 18:00\n// Definir horário do intervalo de almoço\nconst lunchStartHour = 12; // 12:00\nconst lunchEndHour = 14;   // 14:00\nconst timeSlots = [];\nconst iCalUID = $('Start').first().json.iCalUID;\nconst dateSlot = $('Start').first().json.dateSlots; // Recebendo a data do slot\n// Obter a data e hora atuais\nconst now = new Date();\nconst currentDate = now.toISOString().split('T')[0]; // Formato YYYY-MM-DD\nconst currentHour = now.getHours();\nconst currentMinute = now.getMinutes();\n// Verificar se a data do slot é a data atual\nconst isToday = dateSlot === currentDate;\n// Gerar intervalos de 1 hora, excluindo o intervalo de almoço\nfor (let hour = startHour; hour < endHour; hour++) {\n  // Pular os horários de almoço\n  if (hour >= lunchStartHour && hour < lunchEndHour) {\n    continue; // Pula este horário e vai para o próximo\n  }\n  \n  // Se não for hoje, incluir todos os horários (exceto almoço)\n  // Se for hoje, incluir apenas horários futuros (exceto almoço)\n  if (!isToday || hour > currentHour || (hour === currentHour && currentMinute === 0)) {\n    const startTime = `${hour.toString().padStart(2, '0')}:00`;\n    const endTime = `${(hour + 1).toString().padStart(2, '0')}:00`;\n    \n    timeSlots.push({\n      start: startTime,\n      end: endTime,\n      date: dateSlot,\n      iCalUID: iCalUID\n    });\n  }\n}\n// Retornar os dados no formato esperado pelo n8n\nreturn timeSlots.map(slot => ({ json: slot }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -992,
+        3104
+      ],
+      "id": "f5709da2-6e08-4ecb-bf0f-4232ac15cdc9",
+      "name": "Ajusta Tempo",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## Ajuste os horários",
+        "height": 340,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        2976
+      ],
+      "id": "d5dab775-200e-4f8b-b5ae-3434a3a43a81",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 3680,
+        "width": 6100,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2320,
+        80
+      ],
+      "id": "c5cfc348-97e5-44a0-a530-b255f886acc5",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -736,
+        3104
+      ],
+      "id": "9c61f396-b68e-426a-8244-ab27ce29a7c7",
+      "name": "Loop",
+      "executeOnce": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "=Os horários disponíveis para o dia: {{ $('Start').first().json.dateSlots }}\nsão: \n{{ $('Loop').all().map(item => item.json.toJsonString()) }}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        3008
+      ],
+      "id": "4b065546-b1bd-4dea-9b3c-c3c7060059fe",
+      "name": "Seta Mensagem",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca2bd8ea-2267-47ba-bb16-0ee7a71a50d9",
+              "name": "dataInicio",
+              "value": "={{`${$('Start').first().json.dateSlots}T${$json.start}:00`\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        3264
+      ],
+      "id": "aff79aed-b8d8-458f-8753-ac7bba7456b2",
+      "name": "Seta Data e Hora"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('Loop').item.json.iCalUID }}",
+          "mode": "id"
+        },
+        "timeMin": "={{ $json.dataInicio.toDateTime().toLocal() }}",
+        "timeMax": "={{ $json.dataInicio.toDateTime().plus(1,'hour') }}",
+        "options": {
+          "outputFormat": "availability"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        128,
+        3264
+      ],
+      "id": "8ba18e87-c806-4665-b323-f68ef4cac537",
+      "name": "Verifica Disponibilidade de Agenda",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "amount": 0.5
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        3280
+      ],
+      "id": "df952327-158f-4db5-825a-316df0928759",
+      "name": "Espera meio segundo"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst available = item.available;\nconst datetimeStr = $('Seta Data e Hora').first().json.dataInicio;\n\nreturn [{\n  json: {\n    datetime: datetimeStr,\n    available: available\n  }\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        3088
+      ],
+      "id": "bdfab368-7ff4-4c49-9fb0-14641094c130",
+      "name": "Formata Saida",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $json.organizer.email }}",
+          "mode": "id"
+        },
+        "eventId": "={{$json.id}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1952,
+        2944
+      ],
+      "id": "b7efcc93-1a79-4a68-9c9e-4698749d680c",
+      "name": "Deleta Eventos Marcados",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "Evento não localizado",
+              "type": "string"
+            },
+            {
+              "id": "5df18b31-90b2-4297-b89f-c1a756eeb4a5",
+              "name": "error",
+              "value": "={{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        1936
+      ],
+      "id": "5eb3cf76-a38e-4047-9da2-9d6f4b5a1aaf",
+      "name": "Seta Mensagem de Evento não encontrado",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "msg",
+              "value": "Evento cancelado com sucesso",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        1728
+      ],
+      "id": "cfd7b3d5-26be-4b06-aff8-71a9149a1733",
+      "name": "Seta Mensagem de Evento Cancelado",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "numberInputs": 10
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2976,
+        1520
+      ],
+      "id": "b92c7939-912f-483e-846a-fc9f9068b407",
+      "name": "Junta Retorno",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "return { \n'response':JSON.stringify($input.all().map(x =>x.json))\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3344,
+        1664
+      ],
+      "id": "20088bc1-e7c1-4fc4-8ebf-e7e8e296b265",
+      "name": "Seta Mensagem de Retorno"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('Start').item.json.iCalUID }}",
+          "mode": "id"
+        },
+        "timeMin": "={{ $json.dataInicio.toDateTime() }}",
+        "timeMax": "={{ $json.dataInicio.toDateTime().plus(1,'hour') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -1056,
+        560
+      ],
+      "id": "0587a810-253a-4189-aec3-4d89446cfa2a",
+      "name": "Avalia Disponibilidade de Agenda",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "17b233b9-b5d5-4950-9b2d-e02f0dbdc5bf",
+              "leftValue": "={{ $json.available }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -576,
+        512
+      ],
+      "id": "20227e29-eca5-477f-82c9-fd188d91691b",
+      "name": "Se disponível"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "17b233b9-b5d5-4950-9b2d-e02f0dbdc5bf",
+              "leftValue": "={{ $('Variáveis do Fluxo').item.json.allowConflict }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        720
+      ],
+      "id": "f300d6bd-8af6-4869-8555-10fa86d7e007",
+      "name": "Verifica se Esta Liberado Conflitar"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "error",
+              "value": "=Erro ao verificar disponbilidade. Erro: {{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -576,
+        848
+      ],
+      "id": "eaf0484e-11f1-4c0a-8c30-c6d546bfebe1",
+      "name": "Seta Mensagem de Erro"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('Variáveis do Fluxo').item.json.iCalUID }}",
+          "mode": "id"
+        },
+        "start": "={{ $('Variáveis do Fluxo').item.json.dataInicio }}",
+        "end": "={{ $('Variáveis do Fluxo').item.json.dataInicio.toDateTime().plus(1,'hour') }}",
+        "additionalFields": {
+          "description": "=Cliente : {{ $('Variáveis do Fluxo').item.json.nome }}\nEmail: {{ $('Variáveis do Fluxo').item.json.email }}\nPhone: {{ $('Variáveis do Fluxo').item.json.telefone }}\nObs:\n{{ $('Variáveis do Fluxo').item.json.observacao }}",
+          "location": "={{ $('Variáveis do Fluxo').item.json.local }}",
+          "summary": "=Cliente: {{ $('Variáveis do Fluxo').item.json.nome }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        256,
+        560
+      ],
+      "id": "43dcc4b1-dbfc-4f80-9772-b4444065d19b",
+      "name": "Cria Agendamento",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d7c5786-28c2-486c-b898-107d12505c2d",
+              "name": "error",
+              "value": "O horário solicitado não está disponível",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        832
+      ],
+      "id": "6a8319f5-b7d9-421d-8618-7330a2ae1e20",
+      "name": "Seta Mensagem de Horario Indisponivel"
+    },
+    {
+      "parameters": {
+        "jsCode": "return { \n'response':JSON.stringify($input.all().map(x =>x.json))\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        592
+      ],
+      "id": "cc1901e4-5958-4ea9-8d0a-d8ba60ee56da",
+      "name": "Seta Retorno"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Variáveis do Fluxo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Seta Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LoopDelete": {
+      "main": [
+        [
+          {
+            "node": "Seta Mensagem Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Deleta Eventos Marcados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SetMessage4": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "SetMessage5": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Busca Advogados Ativos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FormatErrorOut": {
+      "main": [
+        [
+          {
+            "node": "Espera meio segundo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variáveis do Fluxo": {
+      "main": [
+        [
+          {
+            "node": "Roteador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Evento do Calendario": {
+      "main": [
+        [
+          {
+            "node": "Seta Mensagem de Evento Cancelado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Seta Mensagem de Evento não encontrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza Evento no Calendário": {
+      "main": [
+        [
+          {
+            "node": "SetMessage4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SetMessage5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador": {
+      "main": [
+        [
+          {
+            "node": "Avalia Disponibilidade de Agenda",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Ajusta Tempo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Remove Evento do Calendario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Atualiza Evento no Calendário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca Advogados Ativos": {
+      "main": [
+        [
+          {
+            "node": "Loop nos Advogados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop nos Advogados": {
+      "main": [
+        [
+          {
+            "node": "Seleciona Operacao",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Lista Agendas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lista Agendas": {
+      "main": [
+        [
+          {
+            "node": "Espera 1 segundo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Espera 1 segundo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espera 1 segundo": {
+      "main": [
+        [
+          {
+            "node": "Loop nos Advogados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seleciona Operacao": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filtra",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtra": {
+      "main": [
+        [
+          {
+            "node": "Roteador1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador1": {
+      "main": [
+        [
+          {
+            "node": "LoopDelete",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Seta Mensagem de evento não encontrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem de evento não encontrado": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 9
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem Retorno": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Espera 1 segundo1": {
+      "main": [
+        [
+          {
+            "node": "LoopDelete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ajusta Tempo": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [
+          {
+            "node": "Seta Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Seta Data e Hora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Seta Data e Hora": {
+      "main": [
+        [
+          {
+            "node": "Verifica Disponibilidade de Agenda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica Disponibilidade de Agenda": {
+      "main": [
+        [
+          {
+            "node": "Formata Saida",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FormatErrorOut",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Espera meio segundo": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formata Saida": {
+      "main": [
+        [
+          {
+            "node": "Espera meio segundo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deleta Eventos Marcados": {
+      "main": [
+        [
+          {
+            "node": "Espera 1 segundo1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Espera 1 segundo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem de Evento não encontrado": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 8
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem de Evento Cancelado": {
+      "main": [
+        [
+          {
+            "node": "Junta Retorno",
+            "type": "main",
+            "index": 7
+          }
+        ]
+      ]
+    },
+    "Junta Retorno": {
+      "main": [
+        [
+          {
+            "node": "Seta Mensagem de Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avalia Disponibilidade de Agenda": {
+      "main": [
+        [
+          {
+            "node": "Se disponível",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Seta Mensagem de Erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Se disponível": {
+      "main": [
+        [
+          {
+            "node": "Cria Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Verifica se Esta Liberado Conflitar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica se Esta Liberado Conflitar": {
+      "main": [
+        [
+          {
+            "node": "Cria Agendamento",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Seta Mensagem de Horario Indisponivel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem de Erro": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Cria Agendamento": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seta Mensagem de Horario Indisponivel": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "id": "d0mRFLnm7pE9HerJ",
+  "tags": []
+}
